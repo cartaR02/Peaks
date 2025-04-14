@@ -10,41 +10,75 @@ import {
   ScrollView,
   FlatList,
   Dimensions,
-} from 'react-native';
-import React, { useState } from 'react';
-import { Card } from 'react-native-paper';
-import WorkoutMenu from './Workout/WorkoutMenu.js';
-import GlobalStyle from './Style.js';
-import Exercise from './ExerciseType.js';
-import Search from './Search.js';
+} from "react-native";
+import React, { useState } from "react";
+import { Card } from "react-native-paper";
+import WorkoutMenu from "./Workout/WorkoutMenu.js";
+import GlobalStyle from "./Style.js";
+import Exercise from "./ExerciseType.js";
+import Search from "./Search.js";
 
 export default function WorkoutStart({ navigation }) {
-  const [screens, setScreens] = useState([{ id: 0, type: 'search' }]);
+  const [screens, setScreens] = useState([{ id: 0, type: "search" }]);
   const [currentIndex, setCurrentIndex] = useState(0);
+
   // Each container holds an id and a mode (either 'workout' or 'search').
   const switchToExercise = (exerciseName) => {
     setScreens((prevScreens) =>
       prevScreens.map((screen, index) => {
         if (index === currentIndex) {
-          return { ...screen, type: 'workout', exercise: exerciseName };
+          return { ...screen, type: "workout", exercise: exerciseName };
         }
         return screen;
       })
     );
   };
 
+  // Function logic on the current index is handled with the button visibility
+  const goBack = () => {
+    setCurrentIndex((currentIndex) => {
+      return currentIndex - 1;
+    });
+  };
+
+  const goForward = () => {
+    setCurrentIndex((currentIndex) => {
+      return currentIndex + 1;
+    });
+  };
   // Optional: If you also want to add a new search screen after switching:
   const addNewSearchScreen = () => {
     setScreens((prevScreens) => {
       // Create a new screen with an id based on the current length of the previous screens
-      const newScreen = { id: prevScreens.length, type: 'search' };
+      const newScreen = { id: prevScreens.length, type: "search" };
       // Create the updated screens array
       const updatedScreens = [...prevScreens, newScreen];
       // Now update currentIndex to the new last element's index
       setCurrentIndex(updatedScreens.length - 1);
       // Return the new screens array to update the state
+      console.log(screens.length);
+      console.log(currentIndex);
       return updatedScreens;
     });
+  };
+  const saveWorkoutData = (workoutData) => {
+    setScreens((prevScreens) =>
+      prevScreens.map((screen, index) => {
+        if (index === currentIndex) {
+          return { ...screen, workoutData }; // Update the current screen's data
+        }
+        return screen;
+      })
+    );
+
+    // Retrieve the updated data for the current screen
+    const updatedScreen = screens[currentIndex];
+    return updatedScreen ? { ...updatedScreen, workoutData } : null;
+  };
+
+  const getWorkoutData = () => {
+    const currentScreen = screens[currentIndex];
+    return currentScreen?.workoutData || null;
   };
 
   // Render the current screen based on its type.
@@ -59,11 +93,11 @@ export default function WorkoutStart({ navigation }) {
     const currentScreen = screens[validIndex];
 
     switch (currentScreen.type) {
-      case 'search':
+      case "search":
         return (
           <Search navigation={navigation} switchToExercise={switchToExercise} />
         );
-      case 'workout':
+      case "workout":
         return (
           <Exercise navigation={navigation} exercise={currentScreen.exercise} />
         );
@@ -79,7 +113,7 @@ export default function WorkoutStart({ navigation }) {
       let newScreens;
       if (prevScreens.length <= 1) {
         // If only one screen exists, reset it to a default search screen.
-        newScreens = [{ id: 0, type: 'search' }];
+        newScreens = [{ id: 0, type: "search" }];
       } else {
         // Remove the screen at currentIndex.
         newScreens = prevScreens.filter((_, index) => index !== currentIndex);
@@ -101,13 +135,35 @@ export default function WorkoutStart({ navigation }) {
         <TouchableOpacity
           style={styles.addWorkoutButton}
           onPress={removeCurrentScreen}
-          disabled={screens.length === 1}>
+          disabled={screens.length === 1}
+        >
           <Text style={styles.removeWorkoutText}>-</Text>
         </TouchableOpacity>
+
+        {currentIndex >= 1 && (
+          <TouchableOpacity
+            style={styles.addWorkoutButton}
+            onPress={goBack}
+            disabled={screens.length === 1}
+          >
+            <Text style={styles.removeWorkoutText}>{currentIndex}</Text>
+          </TouchableOpacity>
+        )}
+        <Text style={styles.removeWorkoutText}>Page {currentIndex + 1}</Text>
+        {screens.length - 1 > currentIndex && (
+          <TouchableOpacity
+            style={styles.addWorkoutButton}
+            onPress={goForward}
+            disabled={screens.length === 1}
+          >
+            <Text style={styles.removeWorkoutText}>{currentIndex + 2}</Text>
+          </TouchableOpacity>
+        )}
         <TouchableOpacity
           style={styles.addWorkoutButton}
           onPress={addNewSearchScreen}
-          disabled={screens[currentIndex]?.type === 'search'}>
+          disabled={screens[currentIndex]?.type === "search"}
+        >
           <Text style={styles.addWorkoutText}>+</Text>
         </TouchableOpacity>
       </View>
@@ -126,30 +182,30 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   addWorkoutButton: {
-    backgroundColor: '#C800FF',
+    backgroundColor: "#C800FF",
     width: 50, // Adjust as needed
     height: 50, // Matches X button height
-    justifyContent: 'left',
-    alignItems: 'center',
+    justifyContent: "left",
+    alignItems: "center",
     borderRadius: 10,
     paddingHorizontal: 10,
   },
 
   addWorkoutText: {
     fontSize: 40,
-    color: '#FFFFFF',
-    textAlignVertical: 'center',
+    color: "#FFFFFF",
+    textAlignVertical: "center",
   },
   removeWorkoutText: {
     fontSize: 40,
-    color: '#FFFFFF',
-    textAlignVertical: 'center',
+    color: "#FFFFFF",
+    textAlignVertical: "center",
   },
   wrapper: {
-    flexDirection: 'row', // Lay out children horizontally.
-    justifyContent: 'space-between', // Place first child at the start and the last at the end.
-    alignItems: 'center', // Optionally, center them vertically.
-    width: '100%', // Ensure it spans the full width (or use a fixed width).
+    flexDirection: "row", // Lay out children horizontally.
+    justifyContent: "space-between", // Place first child at the start and the last at the end.
+    alignItems: "center", // Optionally, center them vertically.
+    width: "100%", // Ensure it spans the full width (or use a fixed width).
     paddingHorizontal: 10,
     paddingBottom: 15, // Optional: add horizontal padding.
   },
