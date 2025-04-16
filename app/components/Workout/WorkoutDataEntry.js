@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 
 export default function WorkoutDataEntry({ index, onSetData }) {
   // The card that will be used to hold all of the data entry screens
-
+  console.log(onSetData);
   const [reps, setReps] = useState('');
   const [weight, setWeight] = useState('');
   const [setType, setSetType] = useState('');

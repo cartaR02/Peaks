@@ -16,7 +16,19 @@ import { textStyles }  from './Workout/textStyles';
 
 export default function ExerciseType({ navigation, sentExerciseData }) {
   // Using use states to control if a list is showing or not
+  
+  const currentData = {
+    name: workoutName,
+    sets: setData,
+  };
+
   const workoutName = sentExerciseData.exercise;
+  if (sentExerciseData.sets) {
+    const workoutDataEntries = workoutData.sets.map((_, i) => i);
+    setEntries(workoutDataEntries);
+
+    setSetData(workoutData.sets);
+  }
   const workoutSets = sentExerciseData?.sets || [];
 
   // set indexes for the sets
@@ -29,18 +41,13 @@ export default function ExerciseType({ navigation, sentExerciseData }) {
     setEntries([...entries, entries.length]);
   };
 
-  const currentData = {
-    name: workoutName,
-    sets: setData,
-  };
+  
 
   // Used for taking entries away
   const removeLastEntry = () => {
     setEntries(entries.slice(0, -1));
     setSetData(setData.slice(0, -1));
   };
-
-  const fillWorkouts = () => {};
 
   // handle selecting an entry to display on the right
   const handleSetData = (index, data) => {

@@ -37,6 +37,7 @@ export default function WorkoutStart({ navigation }) {
           return {
             ...screen,
             type: 'workout',
+            exercise: exerciseName,
             workoutData: {
               exercise: exerciseName,
               sets: [],
@@ -50,6 +51,7 @@ export default function WorkoutStart({ navigation }) {
 
   // Function logic on the current index is handled with the button visibility
   const goBack = () => {
+    saveWorkoutData(screens[currentIndex].workoutData);
     setCurrentIndex((currentIndex) => {
       return currentIndex - 1;
     });
@@ -61,7 +63,6 @@ export default function WorkoutStart({ navigation }) {
     setCurrentIndex((currentIndex) => {
       return currentIndex + 1;
     });
-    saveWorkoutData(screens[currentIndex].workoutData);
   };
   // Optional: If you also want to add a new search screen after switching:
   const addNewSearchScreen = () => {
