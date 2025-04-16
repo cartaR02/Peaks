@@ -14,25 +14,33 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import WorkoutDataEntry, { DataEntryTitles } from './Workout/WorkoutDataEntry';
 import { textStyles }  from './Workout/textStyles';
 
-export default function ExerciseType({ navigation, exercise }) {
+export default function ExerciseType({ navigation, sentExerciseData }) {
   // Using use states to control if a list is showing or not
-  const [entries, setEntries] = useState([0]); // Just holding keys for entries
-  const [setData, setSetData] = useState([]); // To hold data from each set
+  const workoutName = sentExerciseData.exercise;
+  const workoutSets = sentExerciseData?.sets || [];
+
+  // set indexes for the sets
+  const [entries, setEntries] = useState(
+    initialSets.length > 0 ? initialSets.map((_, i) => i) : [0]
+  );
+  const [setData, setSetData] = useState(workoutSets); // To hold data from each set
   // Used for adding entries
   const addEntry = () => {
     setEntries([...entries, entries.length]);
   };
 
   const currentData = {
-    name: exercise,
+    name: workoutName,
     sets: setData,
-  }
+  };
 
   // Used for taking entries away
   const removeLastEntry = () => {
     setEntries(entries.slice(0, -1));
     setSetData(setData.slice(0, -1));
   };
+
+  const fillWorkouts = () => {};
 
   // handle selecting an entry to display on the right
   const handleSetData = (index, data) => {
@@ -46,13 +54,12 @@ export default function ExerciseType({ navigation, exercise }) {
     console.log('all weights:', allWeights);
     const allReps = setData.map((set) => set.reps);
     console.log('all reps:', allReps);
-    console.log(currentData)
+    console.log(currentData);
   };
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.headerContainer}>
-        <Text
-          style={[textStyles.textStyles, styles.textWrapper, { textAlignVertical: 'center',}]}>
+        <Text style={[textStyles.textStyles, styles.textWrapper, { textAlignVertical: 'center' }]}>
           {exercise}
         </Text>
       </View>
@@ -61,11 +68,7 @@ export default function ExerciseType({ navigation, exercise }) {
         <DataEntryTitles />
         <ScrollView style={styles.scrollingwrapper}>
           {entries.map((_, index) => (
-            <WorkoutDataEntry
-              key={index}
-              index={index}
-              onSetData={handleSetData}
-            />
+            <WorkoutDataEntry key={index} index={index} onSetData={handleSetData} />
           ))}
         </ScrollView>
       </View>
@@ -80,10 +83,10 @@ export default function ExerciseType({ navigation, exercise }) {
         <TouchableOpacity
           style={styles.button}
           onPress={removeLastEntry}
-          disabled={entries.length === 1}>
+          disabled={entries.length === 1}
+        >
           <Text style={styles.buttonText}>Remove Set</Text>
         </TouchableOpacity>
-
       </View>
     </KeyboardAvoidingView>
   );

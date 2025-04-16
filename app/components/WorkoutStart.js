@@ -19,15 +19,29 @@ import Exercise from "./ExerciseType.js";
 import Search from "./Search.js";
 
 export default function WorkoutStart({ navigation }) {
-  const [screens, setScreens] = useState([{ id: 0, type: "search" }]);
+  const [screens, setScreens] = useState([
+    {
+      id: 0,
+      type: 'search',
+      exercise: null,
+      workoutData: [],
+    },
+  ]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // Each container holds an id and a mode (either 'workout' or 'search').
-  const switchToExercise = (exerciseName) => {
+  const createExerciseScreen = (exerciseName) => {
     setScreens((prevScreens) =>
       prevScreens.map((screen, index) => {
         if (index === currentIndex) {
-          return { ...screen, type: "workout", exercise: exerciseName };
+          return {
+            ...screen,
+            type: 'workout',
+            workoutData: {
+              exercise: exerciseName,
+              sets: [],
+            },
+          };
         }
         return screen;
       })
@@ -41,40 +55,34 @@ export default function WorkoutStart({ navigation }) {
     });
   };
 
+  // save the workout data at the current index and also
   const goForward = () => {
+    saveWorkoutData(screens[currentIndex].workoutData);
     setCurrentIndex((currentIndex) => {
       return currentIndex + 1;
     });
+    saveWorkoutData(screens[currentIndex].workoutData);
   };
   // Optional: If you also want to add a new search screen after switching:
   const addNewSearchScreen = () => {
     setScreens((prevScreens) => {
       // Create a new screen with an id based on the current length of the previous screens
-      const newScreen = { id: prevScreens.length, type: "search" };
+      const newScreen = { id: prevScreens.length, type: 'search' };
       // Create the updated screens array
       const updatedScreens = [...prevScreens, newScreen];
       // Now update currentIndex to the new last element's index
       setCurrentIndex(updatedScreens.length - 1);
       // Return the new screens array to update the state
-      console.log(screens.length);
-      console.log(currentIndex);
       return updatedScreens;
     });
   };
-  const saveWorkoutData = (workoutData) => {
-    setScreens((prevScreens) =>
-      prevScreens.map((screen, index) => {
-        if (index === currentIndex) {
-          return { ...screen, workoutData }; // Update the current screen's data
-        }
-        return screen;
-      })
-    );
 
-    // Retrieve the updated data for the current screen
-    const updatedScreen = screens[currentIndex];
-    return updatedScreen ? { ...updatedScreen, workoutData } : null;
+  // TODO implement logic of taking data from the current screen and saving it this screens screens object that holds the screens information. Where that screens index hold that indexes data and then have a way to populate the data into the screen when it is selected. This will be done by having a function that takes in the data and then populates the screen with that data.
+  const setWorkoutData = (workoutData) => {
+    screen[currentIndex].fillWorkouts(workoutData);
   };
+
+  // Retrieve the updated data for the current screen
 
   const getWorkoutData = () => {
     const currentScreen = screens[currentIndex];
@@ -85,26 +93,16 @@ export default function WorkoutStart({ navigation }) {
   const renderScreen = () => {
     // Make sure currentIndex is within bounds.
     const validIndex =
-      currentIndex < 0
-        ? 0
-        : currentIndex >= screens.length
-        ? screens.length - 1
-        : currentIndex;
+      currentIndex < 0 ? 0 : currentIndex >= screens.length ? screens.length - 1 : currentIndex;
     const currentScreen = screens[validIndex];
 
     switch (currentScreen.type) {
-      case "search":
-        return (
-          <Search navigation={navigation} switchToExercise={switchToExercise} />
-        );
-      case "workout":
-        return (
-          <Exercise navigation={navigation} exercise={currentScreen.exercise} />
-        );
+      case 'search':
+        return <Search navigation={navigation} switchToExercise={createExerciseScreen} />;
+      case 'workout':
+        return <Exercise navigation={navigation} exercise={currentScreen.exercise} />;
       default:
-        return (
-          <Search navigation={navigation} switchToExercise={switchToExercise} />
-        );
+        return <Search navigation={navigation} switchToExercise={createExerciseScreen} />;
     }
   };
 
@@ -113,7 +111,7 @@ export default function WorkoutStart({ navigation }) {
       let newScreens;
       if (prevScreens.length <= 1) {
         // If only one screen exists, reset it to a default search screen.
-        newScreens = [{ id: 0, type: "search" }];
+        newScreens = [{ id: 0, type: 'search' }];
       } else {
         // Remove the screen at currentIndex.
         newScreens = prevScreens.filter((_, index) => index !== currentIndex);
@@ -125,6 +123,9 @@ export default function WorkoutStart({ navigation }) {
     });
   };
 
+  const printScreens = () => {
+    console.log(screens);
+  };
   return (
     <SafeAreaView style={[GlobalStyle.background, styles.background]}>
       <View style={styles.header}>
@@ -162,10 +163,11 @@ export default function WorkoutStart({ navigation }) {
         <TouchableOpacity
           style={styles.addWorkoutButton}
           onPress={addNewSearchScreen}
-          disabled={screens[currentIndex]?.type === "search"}
+          disabled={screens[currentIndex]?.type === 'search'}
         >
           <Text style={styles.addWorkoutText}>+</Text>
         </TouchableOpacity>
+        <Button title="print screens" onPress={printScreens} />
       </View>
     </SafeAreaView>
   );
