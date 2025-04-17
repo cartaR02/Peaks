@@ -8,59 +8,51 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SegmentedButtons } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import WorkoutDataEntry, { DataEntryTitles } from './Workout/WorkoutDataEntry';
 import { textStyles } from './Workout/textStyles';
 
 export default function ExerciseType({ navigation, sentExerciseData }) {
-  // Log the received data for debugging
-  console.log(sentExerciseData);
-
-  // Extract workout name and sets from sentExerciseData
   const workoutName = sentExerciseData.exercise;
-  const workoutSets = sentExerciseData?.sets || [];
+  const workoutSets = sentExerciseData.workoutData || [];
 
-  // State to manage entries and set data
   const [entries, setEntries] = useState(
     workoutSets.length > 0 ? workoutSets.map((_, i) => i) : [0]
   );
-  const [setData, setSetData] = useState(workoutSets); // To hold data from each set
+  const [setData, setSetData] = useState(workoutSets);
 
-  // Add a new entry
-  const addEntry = () => {
-    setEntries((prevEntries) => [...prevEntries, prevEntries.length]);
-    setSetData((prevSetData) => {
-      const newSetData = [...prevSetData, { reps: 0, weight: 0 }]; // Add default set
-      sentExerciseData.workoutData = newSetData; // Synchronize workoutData
-      return newSetData;
-    });
-  };
+  useEffect(() => {
+    if (sentExerciseData && Array.isArray(sentExerciseData.workoutData)) {
+      const workoutSets = sentExerciseData.workoutData;
+      setEntries(workoutSets.map((_, i) => i)); // Reset entries
+      setSetData(workoutSets); // Reset setData
+    } else {
+      setEntries([0]); // Default to one empty entry
+      setSetData([{ reps: 0, weight: 0 }]); // Default to one empty set
+    }
+  }, [sentExerciseData]);
 
-  // Remove the last entry
-  const removeLastEntry = () => {
-    setEntries((prevEntries) => prevEntries.slice(0, -1));
-    setSetData((prevSetData) => {
-      const newSetData = prevSetData.slice(0, -1); // Remove the last set
-      sentExerciseData.workoutData = newSetData; // Synchronize workoutData
-      return newSetData;
-    });
-  };
-
-  // Update set data for a specific entry
   const handleSetData = (index, data) => {
     setSetData((prevSetData) => {
       const updatedData = [...prevSetData];
       updatedData[index] = { ...updatedData[index], ...data }; // Merge new data with existing set
-
-      // Synchronize with sentExerciseData
-      sentExerciseData.workoutData = updatedData.map((set) => ({ ...set })); // Use updatedData instead of setData
+      sentExerciseData.workoutData = updatedData; // Synchronize with sentExerciseData
       return updatedData;
     });
   };
 
-  // Print the current state of sets
+  const addEntry = () => {
+    setEntries((prevEntries) => [...prevEntries, prevEntries.length]);
+    setSetData((prevSetData) => [...prevSetData, { reps: 0, weight: 0 }]);
+  };
+
+  const removeLastEntry = () => {
+    setEntries((prevEntries) => prevEntries.slice(0, -1));
+    setSetData((prevSetData) => prevSetData.slice(0, -1));
+  };
+
   const printList = () => {
     console.log('Set Data:', JSON.stringify(setData, null, 2));
     console.log('Workout Data:', JSON.stringify(sentExerciseData, null, 2));
@@ -81,6 +73,7 @@ export default function ExerciseType({ navigation, sentExerciseData }) {
             <WorkoutDataEntry
               key={index}
               index={index}
+              initialData={setData[index]} // Pass the correct data for each set
               onSetData={(data) => handleSetData(index, data)}
             />
           ))}

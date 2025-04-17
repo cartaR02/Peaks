@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet, Image, Button, TextInput, SafeAreaView } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { textStyles } from './textStyles';
 
 // Change the value of each flex here to make edited them easier
@@ -41,16 +41,24 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function WorkoutDataEntry({ index, onSetData }) {
+export default function WorkoutDataEntry({ index, onSetData, initialData }) {
   // The card that will be used to hold all of the data entry screens
-  console.log(onSetData);
   const [reps, setReps] = useState('');
   const [weight, setWeight] = useState('');
   const [setType, setSetType] = useState('');
 
+  // currently not used
   const handleSetTypeChange = (value) => {
     setSetType(value);
   };
+
+  print(initialData);
+  useEffect(() => {
+    if (initialData) {
+      setReps(initialData.reps || '');
+      setWeight(initialData.weight || '');
+    }
+  }, [initialData]);
 
   const handleRepsChange = (value) => {
     const parsedReps = parseInt(value, 10) || 0; // Ensure numeric value
