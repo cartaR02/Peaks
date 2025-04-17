@@ -38,10 +38,7 @@ export default function WorkoutStart({ navigation }) {
             ...screen,
             type: 'workout',
             exercise: exerciseName,
-            workoutData: {
-              exercise: exerciseName,
-              sets: [],
-            },
+            workoutData: { exercise: exerciseName, sets: [] },
           };
         }
         return screen;
@@ -59,7 +56,6 @@ export default function WorkoutStart({ navigation }) {
 
   // save the workout data at the current index and also
   const goForward = () => {
-    saveWorkoutData(screens[currentIndex].workoutData);
     setCurrentIndex((currentIndex) => {
       return currentIndex + 1;
     });
@@ -67,27 +63,44 @@ export default function WorkoutStart({ navigation }) {
   // Optional: If you also want to add a new search screen after switching:
   const addNewSearchScreen = () => {
     setScreens((prevScreens) => {
-      // Create a new screen with an id based on the current length of the previous screens
-      const newScreen = { id: prevScreens.length, type: 'search' };
-      // Create the updated screens array
-      const updatedScreens = [...prevScreens, newScreen];
-      // Now update currentIndex to the new last element's index
-      setCurrentIndex(updatedScreens.length - 1);
-      // Return the new screens array to update the state
-      return updatedScreens;
-    });
-  };
+      // Save the current screen's workout data
+      const updatedScreens = prevScreens.map((screen, index) => {
+        if (index === currentIndex) {
+          return {
+            ...screen,
+            workoutData: screens[currentIndex].workoutData, // Save current workout data
+          };
+        }
+        return screen;
+      });
 
-  // TODO implement logic of taking data from the current screen and saving it this screens screens object that holds the screens information. Where that screens index hold that indexes data and then have a way to populate the data into the screen when it is selected. This will be done by having a function that takes in the data and then populates the screen with that data.
-  const setWorkoutData = (workoutData) => {
-    screen[currentIndex].fillWorkouts(workoutData);
+      // Add a new search screen
+      const newScreens = [
+        ...updatedScreens,
+        { id: updatedScreens.length, type: 'search', exercise: null, workoutData: [] },
+      ];
+
+      // Update the current index to the new screen
+      setCurrentIndex(newScreens.length - 1);
+
+      return newScreens;
+    });
   };
 
   // Retrieve the updated data for the current screen
 
-  const getWorkoutData = () => {
-    const currentScreen = screens[currentIndex];
-    return currentScreen?.workoutData || null;
+  const saveWorkoutData = () => {
+    setScreens((prevScreens) =>
+      prevScreens.map((screen, index) => {
+        if (index === currentIndex) {
+          return {
+            ...screen,
+            workoutData: screens[currentIndex].workoutData, // Save current workout data
+          };
+        }
+        return screen;
+      })
+    );
   };
 
   // Render the current screen based on its type.
@@ -101,7 +114,7 @@ export default function WorkoutStart({ navigation }) {
       case 'search':
         return <Search navigation={navigation} switchToExercise={createExerciseScreen} />;
       case 'workout':
-        return <Exercise navigation={navigation} exercise={currentScreen.workoutData} />;
+        return <Exercise navigation={navigation} sentExerciseData={currentScreen} />;
       default:
         return <Search navigation={navigation} switchToExercise={createExerciseScreen} />;
     }

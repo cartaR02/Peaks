@@ -15,57 +15,54 @@ import WorkoutDataEntry, { DataEntryTitles } from './Workout/WorkoutDataEntry';
 import { textStyles } from './Workout/textStyles';
 
 export default function ExerciseType({ navigation, sentExerciseData }) {
-  // Using use states to control if a list is showing or not
+  // Log the received data for debugging
   console.log(sentExerciseData);
-  const currentData = {
-    name: workoutName,
-    sets: setData,
-  };
 
+  // Extract workout name and sets from sentExerciseData
   const workoutName = sentExerciseData.exercise;
-  if (sentExerciseData.sets) {
-    const workoutDataEntries = workoutData.sets.map((_, i) => i);
-    setEntries(workoutDataEntries);
-
-    setSetData(workoutData.sets);
-  }
   const workoutSets = sentExerciseData?.sets || [];
 
-  // set indexes for the sets
+  // State to manage entries and set data
   const [entries, setEntries] = useState(
-    initialSets.length > 0 ? initialSets.map((_, i) => i) : [0]
+    workoutSets.length > 0 ? workoutSets.map((_, i) => i) : [0]
   );
   const [setData, setSetData] = useState(workoutSets); // To hold data from each set
-  // Used for adding entries
+
+  // Add a new entry
   const addEntry = () => {
-    setEntries([...entries, entries.length]);
+    setEntries((prevEntries) => [...prevEntries, prevEntries.length]);
+    setSetData((prevSetData) => [...prevSetData, { reps: 0, weight: 0 }]); // Add default set
   };
 
-  // Used for taking entries away
+  // Remove the last entry
   const removeLastEntry = () => {
-    setEntries(entries.slice(0, -1));
-    setSetData(setData.slice(0, -1));
+    setEntries((prevEntries) => prevEntries.slice(0, -1));
+    setSetData((prevSetData) => prevSetData.slice(0, -1));
   };
 
-  // handle selecting an entry to display on the right
+  // Update set data for a specific entry
   const handleSetData = (index, data) => {
-    const updatedData = [...setData];
-    updatedData[index] = data;
-    setSetData(updatedData);
+    setSetData((prevSetData) => {
+      const updatedData = [...prevSetData];
+      updatedData[index] = { ...updatedData[index], ...data }; // Merge new data with existing set
+      return updatedData;
+    });
+
+    // Synchronize with sentExerciseData
+    sentExerciseData.sets = setData;
   };
 
+  // Print the current state of sets
   const printList = () => {
-    const allWeights = setData.map((set) => set.weight || 'N/A');
-    console.log('all weights:', allWeights);
-    const allReps = setData.map((set) => set.reps);
-    console.log('all reps:', allReps);
-    console.log(currentData);
+    console.log('Set Data:', setData);
+    console.log('Workout Data:', sentExerciseData);
   };
+
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.headerContainer}>
         <Text style={[textStyles.textStyles, styles.textWrapper, { textAlignVertical: 'center' }]}>
-          {exercise}
+          {workoutName}
         </Text>
       </View>
 
@@ -73,7 +70,11 @@ export default function ExerciseType({ navigation, sentExerciseData }) {
         <DataEntryTitles />
         <ScrollView style={styles.scrollingwrapper}>
           {entries.map((_, index) => (
-            <WorkoutDataEntry key={index} index={index} onSetData={handleSetData} />
+            <WorkoutDataEntry
+              key={index}
+              index={index}
+              onSetData={(data) => handleSetData(index, data)}
+            />
           ))}
         </ScrollView>
       </View>
