@@ -31,13 +31,21 @@ export default function ExerciseType({ navigation, sentExerciseData }) {
   // Add a new entry
   const addEntry = () => {
     setEntries((prevEntries) => [...prevEntries, prevEntries.length]);
-    setSetData((prevSetData) => [...prevSetData, { reps: 0, weight: 0 }]); // Add default set
+    setSetData((prevSetData) => {
+      const newSetData = [...prevSetData, { reps: 0, weight: 0 }]; // Add default set
+      sentExerciseData.workoutData = newSetData; // Synchronize workoutData
+      return newSetData;
+    });
   };
 
   // Remove the last entry
   const removeLastEntry = () => {
     setEntries((prevEntries) => prevEntries.slice(0, -1));
-    setSetData((prevSetData) => prevSetData.slice(0, -1));
+    setSetData((prevSetData) => {
+      const newSetData = prevSetData.slice(0, -1); // Remove the last set
+      sentExerciseData.workoutData = newSetData; // Synchronize workoutData
+      return newSetData;
+    });
   };
 
   // Update set data for a specific entry
@@ -45,17 +53,17 @@ export default function ExerciseType({ navigation, sentExerciseData }) {
     setSetData((prevSetData) => {
       const updatedData = [...prevSetData];
       updatedData[index] = { ...updatedData[index], ...data }; // Merge new data with existing set
+
+      // Synchronize with sentExerciseData
+      sentExerciseData.workoutData = updatedData.map((set) => ({ ...set })); // Use updatedData instead of setData
       return updatedData;
     });
-
-    // Synchronize with sentExerciseData
-    sentExerciseData.sets = setData;
   };
 
   // Print the current state of sets
   const printList = () => {
-    console.log('Set Data:', setData);
-    console.log('Workout Data:', sentExerciseData);
+    console.log('Set Data:', JSON.stringify(setData, null, 2));
+    console.log('Workout Data:', JSON.stringify(sentExerciseData, null, 2));
   };
 
   return (

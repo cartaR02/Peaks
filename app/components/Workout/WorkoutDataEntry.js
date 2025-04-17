@@ -53,18 +53,21 @@ export default function WorkoutDataEntry({ index, onSetData }) {
   };
 
   const handleRepsChange = (value) => {
-    setReps(value);
-    onSetData(index, { reps: value, weight });
+    const parsedReps = parseInt(value, 10) || 0; // Ensure numeric value
+    setReps(parsedReps);
+    onSetData({ reps: parsedReps, weight }); // Pass updated data to parent
   };
 
+  // Handle changes to weight
   const handleWeightChange = (value) => {
-    setWeight(value);
-    onSetData(index, { reps, weight: value });
+    const parsedWeight = parseFloat(value) || 0; // Ensure numeric value
+    setWeight(parsedWeight);
+    onSetData({ reps, weight: parsedWeight }); // Pass updated data to parent
   };
 
   return (
     <SafeAreaView style={styles.card}>
-      <View style={{flex: setsFlex}} >
+      <View style={{ flex: setsFlex }}>
         <Text style={[textStyles.textStyles]}>{index + 1}</Text>
       </View>
       <View style={[styles.inputWrapper, { flex: typeFlex }]}>
@@ -75,7 +78,7 @@ export default function WorkoutDataEntry({ index, onSetData }) {
           style={styles.setcontainer}
           placeholder=""
           value={reps}
-          keyboardType='numeric'
+          keyboardType="numeric"
           onChangeText={handleRepsChange}
         />
       </View>
@@ -92,14 +95,13 @@ export default function WorkoutDataEntry({ index, onSetData }) {
   );
 }
 
-export function DataEntryTitles (){
+export function DataEntryTitles() {
   return (
     <View style={styles.card}>
-      <Text style={[textStyles.textStyles, {flex: setsFlex}]}>Set</Text>
-      <Text style={[textStyles.textStyles, {flex: typeFlex}]}>Type</Text>
-      <Text style={[textStyles.textStyles, {flex: repsFlex}]}>Reps</Text>
-      <Text style={[textStyles.textStyles, {flex: weightFlex}]}>Weight</Text>
+      <Text style={[textStyles.textStyles, { flex: setsFlex }]}>Set</Text>
+      <Text style={[textStyles.textStyles, { flex: typeFlex }]}>Type</Text>
+      <Text style={[textStyles.textStyles, { flex: repsFlex }]}>Reps</Text>
+      <Text style={[textStyles.textStyles, { flex: weightFlex }]}>Weight</Text>
     </View>
   );
 }
-

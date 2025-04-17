@@ -68,7 +68,7 @@ export default function WorkoutStart({ navigation }) {
         if (index === currentIndex) {
           return {
             ...screen,
-            workoutData: screens[currentIndex].workoutData, // Save current workout data
+            workoutData: prevScreens[currentIndex].workoutData, // Save current workout data
           };
         }
         return screen;
@@ -89,14 +89,11 @@ export default function WorkoutStart({ navigation }) {
 
   // Retrieve the updated data for the current screen
 
-  const saveWorkoutData = () => {
+  const saveWorkoutData = (workoutData) => {
     setScreens((prevScreens) =>
       prevScreens.map((screen, index) => {
         if (index === currentIndex) {
-          return {
-            ...screen,
-            workoutData: screens[currentIndex].workoutData, // Save current workout data
-          };
+          return { ...screen, workoutData }; // Save the provided workout data
         }
         return screen;
       })
