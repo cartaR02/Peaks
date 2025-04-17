@@ -38,7 +38,7 @@ export default function WorkoutStart({ navigation }) {
             ...screen,
             type: 'workout',
             exercise: exerciseName,
-            workoutData: { exercise: exerciseName, sets: [] },
+            workoutData: [{ reps: 0, weight: 0 }], // Initialize with default values
           };
         }
         return screen;
@@ -135,7 +135,7 @@ export default function WorkoutStart({ navigation }) {
   };
 
   const printScreens = () => {
-    console.log(screens);
+    console.log(JSON.stringify(screens, null, 2));
   };
   return (
     <SafeAreaView style={[GlobalStyle.background, styles.background]}>

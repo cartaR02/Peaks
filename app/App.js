@@ -16,40 +16,20 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Settings"
-          component={Settings}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Workout"
-          component={Workout}
-          options={{ headerShown: false }}
-        />
+        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
+        <Stack.Screen name="Workout" component={Workout} options={{ headerShown: false }} />
         <Stack.Screen
           name="CancelWorkout"
           component={CancelWorkout}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
-          name="Search"
-          component={Search}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="EndWorkout"
-          component={EndWorkout}
-          options={{ headerShown: false }}
-        />
+        <Stack.Screen name="Search" component={Search} options={{ headerShown: false }} />
+        <Stack.Screen name="EndWorkout" component={EndWorkout} options={{ headerShown: false }} />
         <Stack.Screen
           name="WorkoutStart"
           component={WorkoutStart}
-          options={{ headerShown: false }}
+          options={{ unmountOnBlur: false, headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -1,5 +1,6 @@
 import { Text, View, StyleSheet, Image, Button, TextInput, SafeAreaView } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useState, useEffect, useCallback } from 'react';
 import { textStyles } from './textStyles';
 
 // Change the value of each flex here to make edited them easier
@@ -42,23 +43,25 @@ const styles = StyleSheet.create({
 });
 
 export default function WorkoutDataEntry({ index, onSetData, initialData }) {
+  console.log('Logging for WorkoutDataEntry');
+  console.log('initialData ', JSON.stringify(initialData, null, 2));
   // The card that will be used to hold all of the data entry screens
-  const [reps, setReps] = useState('');
-  const [weight, setWeight] = useState('');
+  const [reps, setReps] = useState(initialData?.reps || 0); // Initialize reps with initialData or empty string
+  const [weight, setWeight] = useState(initialData?.weight || 0); // Initialize weight with initialData or empty string
   const [setType, setSetType] = useState('');
 
+  useFocusEffect(
+    useCallback(() => {
+      setReps(initialData?.reps?.toString() ?? '');
+      setWeight(initialData?.weight?.toString() ?? '');
+    }, [initialData])
+  );
+  console.log('Reps:', reps);
+  console.log('Weight:', weight);
   // currently not used
   const handleSetTypeChange = (value) => {
     setSetType(value);
   };
-
-  print(initialData);
-  useEffect(() => {
-    if (initialData) {
-      setReps(initialData.reps || '');
-      setWeight(initialData.weight || '');
-    }
-  }, [initialData]);
 
   const handleRepsChange = (value) => {
     const parsedReps = parseInt(value, 10) || 0; // Ensure numeric value
@@ -84,7 +87,8 @@ export default function WorkoutDataEntry({ index, onSetData, initialData }) {
       <View style={[styles.inputWrapper, { flex: repsFlex }]}>
         <TextInput
           style={styles.setcontainer}
-          placeholder=""
+          placeholder={weight === '' ? '0' : ''}
+          placeholderTextColor="#fff"
           value={reps}
           keyboardType="numeric"
           onChangeText={handleRepsChange}
@@ -93,7 +97,8 @@ export default function WorkoutDataEntry({ index, onSetData, initialData }) {
       <View style={[styles.inputWrapper, { flex: weightFlex }]}>
         <TextInput
           style={styles.setcontainer}
-          placeholder=""
+          placeholder={weight === '' ? '0' : ''}
+          placeholderTextColor="#fff"
           value={weight === '' ? '' : weight}
           onChangeText={handleWeightChange}
           keyboardType="numeric"

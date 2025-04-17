@@ -17,6 +17,7 @@ import { textStyles } from './Workout/textStyles';
 export default function ExerciseType({ navigation, sentExerciseData }) {
   const workoutName = sentExerciseData.exercise;
   const workoutSets = sentExerciseData.workoutData || [];
+  console.log('Checking sent Exercise Data:', sentExerciseData.workoutData);
 
   const [entries, setEntries] = useState(
     workoutSets.length > 0 ? workoutSets.map((_, i) => i) : [0]
@@ -58,6 +59,17 @@ export default function ExerciseType({ navigation, sentExerciseData }) {
     console.log('Workout Data:', JSON.stringify(sentExerciseData, null, 2));
   };
 
+  const renderWorkoutEntries = () => {
+    return entries.map((_, index) => (
+      <WorkoutDataEntry
+        key={index}
+        index={index}
+        initialData={setData[index]} // Pass the correct
+        onSetData={(data) => handleSetData(index, data)}
+      />
+    ));
+  };
+
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.headerContainer}>
@@ -68,16 +80,7 @@ export default function ExerciseType({ navigation, sentExerciseData }) {
 
       <View style={styles.middleContainer}>
         <DataEntryTitles />
-        <ScrollView style={styles.scrollingwrapper}>
-          {entries.map((_, index) => (
-            <WorkoutDataEntry
-              key={index}
-              index={index}
-              initialData={setData[index]} // Pass the correct data for each set
-              onSetData={(data) => handleSetData(index, data)}
-            />
-          ))}
-        </ScrollView>
+        <ScrollView style={styles.scrollingwrapper}>{renderWorkoutEntries()}</ScrollView>
       </View>
 
       <View style={styles.buttonContainer}>
