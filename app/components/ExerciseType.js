@@ -12,11 +12,11 @@ import React, { useState } from 'react';
 import { SegmentedButtons } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import WorkoutDataEntry, { DataEntryTitles } from './Workout/WorkoutDataEntry';
-import { textStyles }  from './Workout/textStyles';
+import { textStyles } from './Workout/textStyles';
 
 export default function ExerciseType({ navigation, sentExerciseData }) {
   // Using use states to control if a list is showing or not
-  
+  console.log(sentExerciseData);
   const currentData = {
     name: workoutName,
     sets: setData,
@@ -40,8 +40,6 @@ export default function ExerciseType({ navigation, sentExerciseData }) {
   const addEntry = () => {
     setEntries([...entries, entries.length]);
   };
-
-  
 
   // Used for taking entries away
   const removeLastEntry = () => {
@@ -112,8 +110,8 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
   },
   scrollingwrapper: {
-flex: 1,
-height: 200,
+    flex: 1,
+    height: 200,
   },
   textWrapper: {
     paddingVertical: 0,

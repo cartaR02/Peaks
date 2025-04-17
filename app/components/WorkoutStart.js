@@ -10,13 +10,13 @@ import {
   ScrollView,
   FlatList,
   Dimensions,
-} from "react-native";
-import React, { useState } from "react";
-import { Card } from "react-native-paper";
-import WorkoutMenu from "./Workout/WorkoutMenu.js";
-import GlobalStyle from "./Style.js";
-import Exercise from "./ExerciseType.js";
-import Search from "./Search.js";
+} from 'react-native';
+import React, { useState } from 'react';
+import { Card } from 'react-native-paper';
+import WorkoutMenu from './Workout/WorkoutMenu.js';
+import GlobalStyle from './Style.js';
+import Exercise from './ExerciseType.js';
+import Search from './Search.js';
 
 export default function WorkoutStart({ navigation }) {
   const [screens, setScreens] = useState([
@@ -101,7 +101,7 @@ export default function WorkoutStart({ navigation }) {
       case 'search':
         return <Search navigation={navigation} switchToExercise={createExerciseScreen} />;
       case 'workout':
-        return <Exercise navigation={navigation} exercise={currentScreen.exercise} />;
+        return <Exercise navigation={navigation} exercise={currentScreen.workoutData} />;
       default:
         return <Search navigation={navigation} switchToExercise={createExerciseScreen} />;
     }
@@ -185,30 +185,30 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   addWorkoutButton: {
-    backgroundColor: "#C800FF",
+    backgroundColor: '#C800FF',
     width: 50, // Adjust as needed
     height: 50, // Matches X button height
-    justifyContent: "left",
-    alignItems: "center",
+    justifyContent: 'left',
+    alignItems: 'center',
     borderRadius: 10,
     paddingHorizontal: 10,
   },
 
   addWorkoutText: {
     fontSize: 40,
-    color: "#FFFFFF",
-    textAlignVertical: "center",
+    color: '#FFFFFF',
+    textAlignVertical: 'center',
   },
   removeWorkoutText: {
     fontSize: 40,
-    color: "#FFFFFF",
-    textAlignVertical: "center",
+    color: '#FFFFFF',
+    textAlignVertical: 'center',
   },
   wrapper: {
-    flexDirection: "row", // Lay out children horizontally.
-    justifyContent: "space-between", // Place first child at the start and the last at the end.
-    alignItems: "center", // Optionally, center them vertically.
-    width: "100%", // Ensure it spans the full width (or use a fixed width).
+    flexDirection: 'row', // Lay out children horizontally.
+    justifyContent: 'space-between', // Place first child at the start and the last at the end.
+    alignItems: 'center', // Optionally, center them vertically.
+    width: '100%', // Ensure it spans the full width (or use a fixed width).
     paddingHorizontal: 10,
     paddingBottom: 15, // Optional: add horizontal padding.
   },
