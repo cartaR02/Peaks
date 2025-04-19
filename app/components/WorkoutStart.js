@@ -14,7 +14,7 @@ import {
 import React, { useState } from 'react';
 import { Card } from 'react-native-paper';
 import WorkoutMenu from './Workout/WorkoutMenu.js';
-import GlobalStyle from './Style.js';
+import GlobalStyle from './Utility/Style.js';
 import Exercise from './ExerciseType.js';
 import Search from './Search.js';
 

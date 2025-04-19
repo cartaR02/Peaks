@@ -7,7 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import GlobalStyle from './Style.js';
+import GlobalStyle from './Utility/Style.js';
 import WorkoutData from './WorkoutStart.js';
 import { useEffect, useState } from 'react';
 

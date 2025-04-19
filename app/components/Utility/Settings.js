@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import GlobalStyle from './Style.js';
-import ArrowButton from './ArrowButton';
+import ArrowButton from './ArrowButton.js';
 
 export default function Settings({ navigation }) {
   return (
