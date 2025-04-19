@@ -58,25 +58,26 @@ const styles = StyleSheet.create({
   
 });
 
-export default function WorkoutMenu({ navigation, showSearch, removeWorkout }) {
+export default function WorkoutMenu({ navigation, finishWorkoutScreens }) {
   return (
     <SafeAreaView style={styles.container}>
       {/* X Button */}
       <View style={styles.wrapper}>
         <TouchableOpacity
           style={styles.xButton}
-          onPress={() => navigation.navigate('CancelWorkout')}>
+          onPress={() => navigation.navigate('CancelWorkout')}
+        >
           <Text style={styles.xText}>X</Text>
         </TouchableOpacity>
 
         {/* End Workout Button */}
         <TouchableOpacity
           style={styles.endWorkoutButton}
-          onPress={() => navigation.navigate('EndWorkout')}>
+          onPress={() => navigation.navigate('EndWorkout', { finishWorkoutScreens })}
+        >
           <Text style={styles.buttonText}>End Workout</Text>
         </TouchableOpacity>
       </View>
-      
     </SafeAreaView>
   );
 }

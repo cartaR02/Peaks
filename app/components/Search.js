@@ -14,12 +14,14 @@ import {
 import React, { useState } from 'react';
 import { Card } from 'react-native-paper';
 import WorkoutMenu from './Workout/WorkoutMenu.js'; // Changed to default import
-
-export default function Search({ navigation , switchToExercise}) {
+import Constants from 'expo-constants';
+// TODO FIX THE IMPROTS AND DOTENV I GOTTA GO SLEEP
+export default function Search({ navigation, switchToExercise }) {
   const [name, setName] = useState('');
   const [exercises, setExercises] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { EXERCISE_API_KEY } = Constants.expoConfig.extra; // Access the API key from environment variables
 
   const fetchExercises = async () => {
     if (!name.trim()) {
@@ -31,13 +33,11 @@ export default function Search({ navigation , switchToExercise}) {
     setError(null);
 
     try {
-      const url = `https://api.api-ninjas.com/v1/exercises?name=${encodeURIComponent(
-        name
-      )}`;
+      const url = `https://api.api-ninjas.com/v1/exercises?name=${encodeURIComponent(name)}`;
       const response = await fetch(url, {
         method: 'GET',
         headers: {
-          'X-Api-Key': '8cks0krb555UbcpdBVBR5g==IvBf24MHhdBJxenm',
+          'X-Api-Key': EXERCISE_API_KEY, // Use the environment variable for the API key
         },
       });
 
@@ -69,7 +69,7 @@ export default function Search({ navigation , switchToExercise}) {
           onSubmitEditing={fetchExercises}
           returnKeyType="search"
         />
-        
+
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           {exercises.length > 0
             ? exercises.map((item, index) => (
@@ -81,9 +81,7 @@ export default function Search({ navigation , switchToExercise}) {
                   <Text style={styles.buttonText}>{item}</Text>
                 </TouchableOpacity>
               ))
-            : !loading && (
-                <Text style={styles.message}>No Matching Exercise Found</Text>
-              )}
+            : !loading && <Text style={styles.message}>No Matching Exercise Found</Text>}
         </ScrollView>
         {/* You can also have a default button selection */}
         <Text style={styles.buttonText}>Suggestions</Text>

@@ -140,7 +140,7 @@ export default function WorkoutStart({ navigation }) {
   return (
     <SafeAreaView style={[GlobalStyle.background, styles.background]}>
       <View style={styles.header}>
-        <WorkoutMenu navigation={navigation} />
+        <WorkoutMenu navigation={navigation} finishWorkoutScreens={screens} />
       </View>
       <View style={styles.content}>{renderScreen()}</View>
       <View style={styles.wrapper}>
