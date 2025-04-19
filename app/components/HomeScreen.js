@@ -12,7 +12,7 @@ import { Card } from "react-native-paper";
 
 // or any files within the Snack
 import AssetExample from "./AssetExample";
-import GlobalStyle from "./Style.js";
+import GlobalStyle from './Utility/Style.js';
 
 export default function HomeScreen({ navigation }) {
   return (

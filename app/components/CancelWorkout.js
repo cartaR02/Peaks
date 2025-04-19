@@ -6,7 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import GlobalStyle from './Style.js';
+import GlobalStyle from './Utility/Style.js';
 
 
 export default function CancelWorkout({ navigation }) {
