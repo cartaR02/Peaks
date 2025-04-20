@@ -9,8 +9,8 @@ import { NavigationProp } from '@react-navigation/native';
 export default function Signout({ navigation }) {
   const handleLogout = async () => {
     try {
+      // Signout will change the user state to null and automatically switch to the unauthenticated stack
       await signOut(FIREBASE_AUTH);
-      navigation.navigate('Login'); // navigate to your login screen
     } catch (error) {
       console.log('Logout error:', error);
     }
@@ -31,20 +31,20 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
   title: {
     fontSize: 24,
-    marginBottom: 20
+    marginBottom: 20,
   },
   button: {
     backgroundColor: '#ff1100',
     padding: 15,
-    borderRadius: 5
+    borderRadius: 5,
   },
   buttonText: {
     color: '#fff',
     fontSize: 18,
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 });
