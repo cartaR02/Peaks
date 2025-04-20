@@ -2,9 +2,8 @@ import React from 'react';
 import { Text, View, Button } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { onAuthStateChanged, User } from 'firebase/auth';
-import { FIREBASE_AUTH } from '../FirebaseConfig'; // Adjust the import based on your project structure
 
 import HomeScreen from './components/HomeScreen';
 import Settings from './components/Utility/Settings.js';
@@ -13,12 +12,12 @@ import CancelWorkout from './components/CancelWorkout';
 import Search from './components/Search';
 import EndWorkout from './components/EndWorkout';
 import WorkoutStart from './components/WorkoutStart.js';
-import Login from './components/Login/Login.js';
+import LoginPage from './components/Login/Login.js';
 const Stack = createStackNavigator();
 
 export default function App() {
   // setting up auth
-  const [user, setUser] = useState(null);
+  const [user, setUser] = (useState < User) | (null > null);
 
   useEffect(() => {
     onAuthStateChanged(FIREBASE_AUTH, (user) => {
@@ -29,37 +28,28 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      {user ? <AuthenticatedStack /> : <UnauthenticatedStack />}
+      <Stack.Navigator initialRouteName="Login">
+        // Show login if user is not logged in and when user is loggin in show home
+        {user ? (
+          <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+        ) : (
+          <Stack.Screen name="Login" component={LoginPage} options={{ headerShown: false }} />
+        )}
+        <Stack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
+        <Stack.Screen name="Workout" component={Workout} options={{ headerShown: false }} />
+        <Stack.Screen
+          name="CancelWorkout"
+          component={CancelWorkout}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="Search" component={Search} options={{ headerShown: false }} />
+        <Stack.Screen name="EndWorkout" component={EndWorkout} options={{ headerShown: false }} />
+        <Stack.Screen
+          name="WorkoutStart"
+          component={WorkoutStart}
+          options={{ unmountOnBlur: false, headerShown: false }}
+        />
+      </Stack.Navigator>
     </NavigationContainer>
-  );
-}
-function UnauthenticatedStack() {
-  return (
-    <Stack.Navigator initialRouteName="Login">
-      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-    </Stack.Navigator>
-  );
-}
-// If the user is not logged in, show the login screen
-
-function AuthenticatedStack() {
-  return (
-    <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
-      <Stack.Screen name="Workout" component={Workout} options={{ headerShown: false }} />
-      <Stack.Screen
-        name="CancelWorkout"
-        component={CancelWorkout}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen name="Search" component={Search} options={{ headerShown: false }} />
-      <Stack.Screen name="EndWorkout" component={EndWorkout} options={{ headerShown: false }} />
-      <Stack.Screen
-        name="WorkoutStart"
-        component={WorkoutStart}
-        options={{ unmountOnBlur: false, headerShown: false }}
-      />
-    </Stack.Navigator>
   );
 }
