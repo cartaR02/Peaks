@@ -122,13 +122,13 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   scrollContainer: {
-  alignItems: 'center',
-  flexWrap: 'wrap',
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  borderColor: 'black',
-  borderWidth: 2,
-  flex: 7,
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderColor: 'black',
+    borderWidth: 2,
+    flex: 7,
   },
   buttonText: {
     color: '#FFF',
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   searchcontainer: {
- // Ensure inputs take equal space
+    // Ensure inputs take equal space
     //borderColor: 'rgba(255, 255, 255, 0.2)',
     borderWidth: 1,
     borderRadius: 8,
