@@ -6,6 +6,8 @@ import {
     StyleSheet,
     SafeAreaView,
     KeyboardAvoidingView, Alert,
+  View,
+  Image,
 } from 'react-native';
 import GlobalStyles from '../Utility/Style';
 import { FIREBASE_AUTH } from '../../../FirebaseConfig'; // Adjust the import based on your project structure
@@ -58,31 +60,49 @@ export default function Login() {
 
     return (
         <SafeAreaView style={[GlobalStyles.background,  styles.container ]}>
-            <KeyboardAvoidingView style={styles.formContainer}>
-                <Text style={styles.title}>Login</Text>
-                {error ? <Text style={styles.error}>{error}</Text> : null}
-                <TextInput
-                    style={styles.input}
-                    placeholder="Email"
-                    value={email}
-                    onChangeText={setEmail}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
+            <View style={styles.formContainer}>
+                <Image
+                  source={require('../../assets/OtherSplash.png')}
+                  resizeMode="contain"
+                  style={{
+                      marginTop: 10,
+                      width: '80%',
+                      height: '40%',
+                      aspectRatio: 1,
+                      alignSelf: 'center',
+                  }}
                 />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Password"
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry
-                />
-                <TouchableOpacity style={styles.button} onPress={signIn}>
-                    <Text style={styles.buttonText}>Log In</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={signUp}>
-                    <Text style={styles.buttonText}>Sign Up</Text>
-                </TouchableOpacity>
-            </KeyboardAvoidingView>
+                <Text style={styles.title}>Peaks</Text>
+
+                <View style={styles.inputWrapper}>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Email"
+                        placeholderTextColor="#ccc"
+                        value={email}
+                        onChangeText={setEmail}
+                        keyboardType="email-address"
+                        autoCapitalize="none"
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Password"
+                        value={password}
+                        placeholderTextColor="#ccc"
+                        onChangeText={setPassword}
+                        secureTextEntry
+                        autoCapitalize="none"
+                    />
+                </View>
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity style={styles.button} onPress={signIn}>
+                        <Text style={styles.buttonText}>Log In</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={signUp}>
+                        <Text style={styles.buttonText}>Sign Up</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
         </SafeAreaView>
     );
 }
@@ -99,7 +119,8 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 32,
         textAlign: 'center',
-        marginBottom: 20,
+        marginBottom: 25,
+        marginTop: 25,
         fontWeight: 'bold',
         color: '#C800FF',
     },
@@ -109,22 +130,29 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         padding: 10,
         marginBottom: 15,
+        color: "#fff",
+    },
+    inputWrapper: {
+        padding: 10,
+    },
+    buttonContainer: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 20,
     },
     button: {
-        backgroundColor: '#007bff',
+        backgroundColor: '#C800FF',
         padding: 15,
         borderRadius: 5,
-        
+        marginVertical: 10,
+        width: '48%',
+        alignItems: 'center',
     },
     buttonText: {
         color: '#fff',
         textAlign: 'center',
         fontSize: 18,
         fontWeight: '600',
-    },
-    error: {
-        color: 'red',
-        textAlign: 'center',
-        marginBottom: 15,
-    },
+    }
 });

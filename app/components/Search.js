@@ -15,7 +15,6 @@ import React, { useState } from 'react';
 import { Card } from 'react-native-paper';
 import WorkoutMenu from './Workout/WorkoutMenu.js'; // Changed to default import
 import Constants from 'expo-constants';
-// TODO FIX THE IMPROTS AND DOTENV I GOTTA GO SLEEP
 export default function Search({ navigation, switchToExercise }) {
   const [name, setName] = useState('');
   const [exercises, setExercises] = useState([]);
@@ -141,7 +140,7 @@ const styles = StyleSheet.create({
     //borderColor: 'rgba(255, 255, 255, 0.2)',
     borderWidth: 1,
     borderRadius: 8,
-    height: 15,
+    height: 20,
     padding: 20,
     margin: 1,
     backgroundColor: 'rgba(255, 255, 255, 0.15)',
