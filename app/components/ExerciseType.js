@@ -38,7 +38,7 @@ export default function ExerciseType({ navigation, sentExerciseData }) {
   const handleSetData = (index, data) => {
     setSetData((prevSetData) => {
       const updatedData = [...prevSetData];
-      updatedData[index] = { ...updatedData[index], ...data }; // Merge new data with existing set
+      updatedData[index] = { ...updatedData[index], ...data }; // Merge new data with an existing set
       sentExerciseData.workoutData = updatedData; // Synchronize with sentExerciseData
       return updatedData;
     });

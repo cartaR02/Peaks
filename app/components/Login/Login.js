@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import {
-    View,
     Text,
     TextInput,
     TouchableOpacity,
     StyleSheet,
     SafeAreaView,
-    KeyboardAvoidingView,
+    KeyboardAvoidingView, Alert,
 } from 'react-native';
 import GlobalStyles from '../Utility/Style';
 import { FIREBASE_AUTH } from '../../../FirebaseConfig'; // Adjust the import based on your project structure
@@ -16,18 +15,28 @@ export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [Loading, setLoading] = useState(false);
     const auth = FIREBASE_AUTH; // Replace with your Firebase Auth instance
 
 
     const signIn = async () => {
+        if (email === '' || password === '') {
+            Alert.alert('Login failed. Please check your credentials and try again. ','' ,[
+                {text: 'OK', onPress: () => console.log('Email or password is empty.')},
+            ]);
+            return;
+        }
+        // Start trying to sign in the user
         setLoading(true);
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             console.log('User logged in:', userCredential.user);
         } catch (error) {
             setError(error.message);
-            alert('Login failed. Please check your credentials and try again. ', error.message);
+            // Telling user that sign in has failed
+            Alert.alert('Login failed. Please check your credentials and try again. ','' ,[
+              {text: 'OK', onPress: () => console.log('OK Pressed')},
+            ]);
         } finally {
             setLoading(false);
         }

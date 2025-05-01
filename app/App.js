@@ -1,9 +1,8 @@
 import React from 'react';
-import { Text, View, Button } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
-import { onAuthStateChanged, User } from 'firebase/auth';
+import { onAuthStateChanged, } from 'firebase/auth';
 import { FIREBASE_AUTH } from '../FirebaseConfig'; // Adjust the import based on your project structure
 
 import HomeScreen from './components/HomeScreen';
