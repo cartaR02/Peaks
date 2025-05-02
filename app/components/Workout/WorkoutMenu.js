@@ -73,7 +73,7 @@ export default function WorkoutMenu({ navigation, finishWorkoutScreens }) {
         {/* End Workout Button */}
         <TouchableOpacity
           style={styles.endWorkoutButton}
-          onPress={() => navigation.navigate('EndWorkout', { finishWorkoutScreens })}
+          onPress={() => navigation.navigate('EndWorkout', { completeWorkout: finishWorkoutScreens })}
         >
           <Text style={styles.buttonText}>End Workout</Text>
         </TouchableOpacity>

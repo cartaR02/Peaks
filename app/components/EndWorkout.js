@@ -13,7 +13,8 @@ import { useEffect, useState } from 'react';
 
 export default function EndWorkout({ navigation, route }) {
   const textSize = 30;
-  const { completeWorkout } = route.params; // Default to an empty function if not passed
+  const { completeWorkout } = route.params;
+  console.log(route.params);// Default to an empty function if not passed
   const [compiledWorkouts, setCompiledWorkouts] = useState([]); // State to hold compiled workouts
   // Log the complete workout data
   useEffect(() => {
@@ -24,7 +25,7 @@ export default function EndWorkout({ navigation, route }) {
           exercise,
           workoutData,
         }));
-      console.log('Workout data compiled:', workouts);
+      console.log('Workout data compiled:', JSON.stringify(workouts, null, 2));
       setCompiledWorkouts(workouts);
     } else {
       console.log('No workout data to compile.');
@@ -36,6 +37,21 @@ export default function EndWorkout({ navigation, route }) {
       <View style={styles.outerStats}>
         <ScrollView style={styles.stats}>
           <Text style={styles.statsText}>Workout Stats</Text>
+          {compiledWorkouts.map((workout, index) => (
+            <View key={index} style={styles.stats}>
+              <Text style={styles.statsText}>{workout.exercise}</Text>
+              <View style={styles.statsText}>
+
+                {/* TODO make this text look good */}
+                {workout.workoutData.map((set, index) => (
+                  <View key={index} style={styles.statsText}>
+                    <Text>{set.reps}</Text>
+                    <Text>{set.weight}</Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+          ))}
         </ScrollView>
       </View>
       <View style={styles.container}>

@@ -34,6 +34,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
+    padding: 15,
+    borderRadius: 15,
   },
   continueCancel: {
     flex:1,
@@ -42,7 +44,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignItems: 'center',
     borderWidth: 5,
-    width: "25%",
   },
   Yes: {
     backgroundColor: 'green',

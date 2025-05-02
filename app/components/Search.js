@@ -41,7 +41,8 @@ export default function Search({ navigation, switchToExercise }) {
       });
 
       if (!response.ok) {
-        throw new Error('HTTP error! Status: ${response.status}');
+        const errorString = response.statusText || response.status;
+        throw new Error(`HTTP error! Status: ${errorString}`);
       }
 
       const data = await response.json();

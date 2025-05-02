@@ -28,7 +28,9 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      {user ? <AuthenticatedStack /> : <UnauthenticatedStack />}
+      <AuthenticatedStack/>
+      {/*For dev no login*/}
+      {/* {user ? <AuthenticatedStack /> : <UnauthenticatedStack />} */}
     </NavigationContainer>
   );
 }
