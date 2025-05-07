@@ -22,15 +22,14 @@ export default function App() {
   useEffect(() => {
     onAuthStateChanged(FIREBASE_AUTH, (user) => {
       console.log('User state changed:', user);
+      console.log('User ID: ', user.uid);
       setUser(user);
     });
   }, []);
 
   return (
     <NavigationContainer>
-      <AuthenticatedStack/>
-      {/*For dev no login*/}
-      {/* {user ? <AuthenticatedStack /> : <UnauthenticatedStack />} */}
+       {user ? <AuthenticatedStack /> : <UnauthenticatedStack />}
     </NavigationContainer>
   );
 }

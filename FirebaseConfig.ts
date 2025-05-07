@@ -1,7 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-import { getAnalytics } from 'firebase/analytics';
 import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import { getDatabase } from 'firebase/database';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -16,8 +17,10 @@ const firebaseConfig = {
   messagingSenderId: '1091596182755',
   appId: '1:1091596182755:web:ba41b7a3dd452ec70091d6',
   measurementId: 'G-9FCM0930W2',
+  dataBaseURL: 'https://peaks-30fa5-default-rtdb.firebaseio.com/'
 };
 
 // Initialize Firebase
 const FIREBASE_APP = initializeApp(firebaseConfig);
 export const FIREBASE_AUTH = getAuth(FIREBASE_APP);
+const database = getDatabase(FIREBASE_APP);

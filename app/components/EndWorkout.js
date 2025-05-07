@@ -10,12 +10,16 @@ import {
 import GlobalStyle from './Utility/Style.js';
 import WorkoutData from './WorkoutStart.js';
 import { useEffect, useState } from 'react';
+import { StoreWorkout } from './Utility/StoreWorkout';
+import { collection,  addDoc } from 'firebase/firestore';
+import Constants from 'expo-constants';
 
 export default function EndWorkout({ navigation, route }) {
   const textSize = 30;
   const { completeWorkout } = route.params;
   console.log(route.params);// Default to an empty function if not passed
   const [compiledWorkouts, setCompiledWorkouts] = useState([]); // State to hold compiled workouts
+
   // Log the complete workout data
   useEffect(() => {
     if (completeWorkout) {
@@ -31,6 +35,14 @@ export default function EndWorkout({ navigation, route }) {
       console.log('No workout data to compile.');
     }
   }, [completeWorkout]); // Run once when the component mounts
+
+  // Calls both storeworkout and navigate instead of button somehow doing both
+  function StoreWorkoutWrapper() {
+    StoreWorkout(compiledWorkouts);
+    navigation.navigate('Home');
+  }
+
+
   return (
     <SafeAreaView style={GlobalStyle.background}>
       <Text style={[styles.Buttontext, { fontSize: 50 }]}>End Workout?</Text>
@@ -57,7 +69,7 @@ export default function EndWorkout({ navigation, route }) {
       <View style={styles.container}>
         <TouchableOpacity
           style={[styles.continueCancel, styles.Yes]}
-          onPress={() => navigation.navigate('Home')}
+          onPress={StoreWorkoutWrapper}
         >
           <Text style={([GlobalStyle.GText], { fontSize: textSize })}>Yes</Text>
         </TouchableOpacity>

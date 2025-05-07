@@ -42,6 +42,7 @@ export default function Search({ navigation, switchToExercise }) {
 
       if (!response.ok) {
         const errorString = response.statusText || response.status;
+        console.log(errorString);
         throw new Error(`HTTP error! Status: ${errorString}`);
       }
 

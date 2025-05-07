@@ -1,2 +1,6 @@
-import { initialiazeApp } from 'firebase/app';
-import { getFirestore, colection, addDoc } from 'firebase/firestore/';
+
+
+
+
+// stores user information
+let CurrentUserId;
