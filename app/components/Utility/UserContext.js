@@ -1,7 +1,6 @@
 // UserContext.js
 import React, { createContext, useContext } from 'react';
 
-// Create the context with null as default value
 const UserContext = createContext(null);
 
 // Create the provider component
@@ -13,8 +12,10 @@ export function UserProvider({ children, user }) {
 export function useUser() {
   const context = useContext(UserContext);
   if (context === undefined) {
+    console.log('user is undefined');
     throw new Error('useUser must be used within a UserProvider');
   }
+  console.log('user found');
   return context;
 }
 
