@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
-import { onAuthStateChanged, } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 import { FIREBASE_AUTH } from '../FirebaseConfig'; // Adjust the import based on your project structure
 
 import HomeScreen from './components/HomeScreen';
@@ -13,24 +13,27 @@ import Search from './components/Search';
 import EndWorkout from './components/EndWorkout';
 import WorkoutStart from './components/WorkoutStart.js';
 import LoginPage from './components/Login/Login.js';
+import { UserProvider } from './components/Utility/UserContext';
 const Stack = createStackNavigator();
 
 export default function App() {
   // setting up auth
-   export const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    onAuthStateChanged(FIREBASE_AUTH, (user) => {
-      console.log('User state changed:', user);
-      console.log('User ID: ', user.uid);
+    const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, (user) => {
       setUser(user);
     });
+
+    return () => unsubscribe();
   }, []);
 
   return (
-    <NavigationContainer>
-       {user ? <AuthenticatedStack /> : <UnauthenticatedStack />}
-    </NavigationContainer>
+    <UserProvider user={user}>
+      <NavigationContainer>
+        {user ? <AuthenticatedStack /> : <UnauthenticatedStack />}
+      </NavigationContainer>
+    </UserProvider>
   );
 }
 function UnauthenticatedStack() {
