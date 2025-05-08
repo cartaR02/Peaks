@@ -1,15 +1,11 @@
-import { Text, View } from "react-native";
+import { registerRootComponent } from 'expo';
+import { FIREBASE_APP } from './FirebaseConfig';
+import App from './app/App';
 
-export default function Index() {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-    </View>
-  );
+registerRootComponent(App);
+
+if (FIREBASE_APP) {
+  console.log('Firebase intitialized successfully');
+} else {
+  console.log('Firebase has not intillizalize correctly');
 }

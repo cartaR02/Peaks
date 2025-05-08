@@ -3,7 +3,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { FIREBASE_AUTH } from '../FirebaseConfig'; // Adjust the import based on your project structure
+import { FIREBASE_APP, initializeFirebaseAuth } from '../FirebaseConfig';
+import { getAuth } from 'firebase/auth';
 
 import HomeScreen from './components/HomeScreen';
 import Settings from './components/Utility/Settings.js';
@@ -17,16 +18,29 @@ import { UserProvider } from './components/Utility/UserContext';
 const Stack = createStackNavigator();
 
 export default function App() {
-  // setting up auth
   const [user, setUser] = useState(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, (user) => {
-      setUser(user);
-    });
+    const setupAuth = async () => {
+      try {
+        await initializeFirebaseAuth();
+        const auth = getAuth(FIREBASE_APP);
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+          setUser(user);
+        });
+        return () => unsubscribe();
+      } catch (error) {
+        console.error('Error setting up auth:', error);
+      }
+    };
 
-    return () => unsubscribe();
+    setupAuth();
   }, []);
+
+  if (!isInitialized) {
+    return null; // or a loading spinner
+  }
 
   return (
     <UserProvider user={user}>
