@@ -17,7 +17,7 @@ const Stack = createStackNavigator();
 
 export default function App() {
   // setting up auth
-  const [user, setUser] = useState(null);
+   export const [user, setUser] = useState(null);
 
   useEffect(() => {
     onAuthStateChanged(FIREBASE_AUTH, (user) => {

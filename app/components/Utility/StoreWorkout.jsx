@@ -1,5 +1,5 @@
 import { getDatabase, ref, set } from 'firebase/database';
-
+import { User } from '../../App'
 export function StoreWorkout(userId, exercise) {
   const database = getDatabase();
 
@@ -7,7 +7,7 @@ export function StoreWorkout(userId, exercise) {
   // a name and then the workout sets and reps
   const repList = []
   const weightList = []
-
-  set(ref(database, `users/${userId}/workouts`),
+// TODO figure out good structure and how uid works
+  set(ref(database, `users/${User}/workouts`),
     workoutInformation);
 }
