@@ -29,11 +29,9 @@ export default function App() {
   }, []);
 
   return (
-    <UserProvider user={user}>
-      <NavigationContainer>
-        {user ? <AuthenticatedStack /> : <UnauthenticatedStack />}
-      </NavigationContainer>
-    </UserProvider>
+    <NavigationContainer>
+      {user ? <AuthenticatedStack /> : <UnauthenticatedStack />}
+    </NavigationContainer>
   );
 }
 function UnauthenticatedStack() {
