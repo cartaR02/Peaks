@@ -2,46 +2,50 @@ import 'dotenv/config';
 
 export default {
   expo: {
-    name: "Peaks",
-    slug: "Peaks",
-    version: "1.0.0",
-    orientation: "portrait",
-    icon: "./assets/images/icon.png",
-    scheme: "myapp",
-    userInterfaceStyle: "automatic",
+    name: 'Peaks',
+    slug: 'Peaks',
+    version: '1.0.0',
+    orientation: 'portrait',
+    icon: './assets/images/icon.png',
+    scheme: 'myapp',
+    userInterfaceStyle: 'automatic',
     newArchEnabled: true,
     ios: {
       supportsTablet: true,
-      bundleIdentifier: "com.anonymous.Peaks"
+      bundleIdentifier: 'com.anonymous.Peaks',
+      buildNumber: '1.0.0',
     },
     android: {
+      package: 'com.anonymous.Peaks',
+      edgeToEdge: true,
+      versionCode: 1,
       adaptiveIcon: {
-        foregroundImage: "./assets/images/adaptive-icon.png",
-        backgroundColor: "#ffffff"
-      }
+        foregroundImage: './assets/images/adaptive-icon.png',
+        backgroundColor: '#ffffff',
+      },
     },
     web: {
-      bundler: "metro",
-      output: "static",
-      favicon: "./assets/images/favicon.png"
+      bundler: 'metro',
+      output: 'static',
+      favicon: './assets/images/favicon.png',
     },
     plugins: [
-      "expo-router",
+      'expo-router',
       [
-        "expo-splash-screen",
+        'expo-splash-screen',
         {
-          image: "./assets/images/splash-icon.png",
+          image: './assets/images/splash-icon.png',
           imageWidth: 200,
-          resizeMode: "contain",
-          backgroundColor: "#ffffff"
-        }
-      ]
+          resizeMode: 'contain',
+          backgroundColor: '#ffffff',
+        },
+      ],
     ],
     experiments: {
-      typedRoutes: true
+      typedRoutes: true,
     },
     extra: {
-      EXERCISE_API_KEY: process.env.EXERCISE_API_KEY
-    }
-  }
+      EXERCISE_API_KEY: process.env.EXERCISE_API_KEY,
+    },
+  },
 };
