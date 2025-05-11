@@ -1,14 +1,14 @@
-import { Text, View } from "react-native";
-import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { useState, useEffect } from 'react';
-
-const Stack = createStackNavigator();
+import React, { useState, useEffect } from 'react';
 import HomeScreen from './homeScreen.js';
 import WorkoutStart from './PrimaryWorkout/workoutStart';
 import Search from './PrimaryWorkout/search';
 import ExerciseName from './PrimaryWorkout/exerciseName';
+import EndWorkout from './LeavingWorkout/EndWorkout';
+import CancelWorkout from './LeavingWorkout/CancelWorkout';
+
+const Stack = createStackNavigator();
 
 export default function Index() {
 
@@ -25,6 +25,9 @@ export default function Index() {
       <Stack.Screen name="StartWorkout" component={WorkoutStart} options={{headerShown: false}}/>
       <Stack.Screen name="Search" component={Search} options={{headerShown: false}}/>
       <Stack.Screen name="ExerciseName" component={ExerciseName} options={{headerShown: false}}/>
+      <Stack.Screen name="EndWorkout" component={EndWorkout} options={{headerShown: false}}/>
+        <Stack.Screen name="CancelWorkout" component={CancelWorkout} options={{headerShown: false}}/>
+
     </Stack.Navigator>
   );
 }
