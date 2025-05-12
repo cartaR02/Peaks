@@ -1,3 +1,3 @@
 export function StoreWorkout(workout) {
-    console.log("Storing workout:", workout);
+  console.log("Storing workout:", workout);
 }

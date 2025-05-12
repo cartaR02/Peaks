@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import "dotenv/config";
 
 export default {
   expo: {
@@ -12,18 +12,18 @@ export default {
     newArchEnabled: true,
     ios: {
       supportsTablet: true,
-      bundleIdentifier: "com.anonymous.Peaks"
+      bundleIdentifier: "com.anonymous.Peaks",
     },
     android: {
       adaptiveIcon: {
         foregroundImage: "./assets/images/adaptive-icon.png",
-        backgroundColor: "#ffffff"
-      }
+        backgroundColor: "#ffffff",
+      },
     },
     web: {
       bundler: "metro",
       output: "static",
-      favicon: "./assets/images/favicon.png"
+      favicon: "./assets/images/favicon.png",
     },
     plugins: [
       "expo-router",
@@ -33,15 +33,15 @@ export default {
           image: "./assets/images/splash-icon.png",
           imageWidth: 200,
           resizeMode: "contain",
-          backgroundColor: "#ffffff"
-        }
-      ]
+          backgroundColor: "#ffffff",
+        },
+      ],
     ],
     experiments: {
-      typedRoutes: true
+      typedRoutes: true,
     },
     extra: {
-      EXERCISE_API_KEY: process.env.EXERCISE_API_KEY
-    }
-  }
+      EXERCISE_API_KEY: process.env.EXERCISE_API_KEY,
+    },
+  },
 };

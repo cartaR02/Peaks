@@ -5,19 +5,19 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   TouchableOpacity,
-} from 'react-native';
-import { useState, useEffect } from 'react';
+} from "react-native";
+import { useState, useEffect } from "react";
 
-import WorkoutDataEntry, { DataEntryTitles } from './dataEntry';
-import GlobalStyles from '../constants/globalStyles';
+import WorkoutDataEntry, { DataEntryTitles } from "./dataEntry";
+import GlobalStyles from "../constants/globalStyles";
 
 export default function ExerciseType({ navigation, sentExerciseData }) {
   const workoutName = sentExerciseData.exercise;
   const workoutSets = sentExerciseData.workoutData || [];
-  console.log('Checking sent Exercise Data:', sentExerciseData.workoutData);
+  console.log("Checking sent Exercise Data:", sentExerciseData.workoutData);
 
   const [entries, setEntries] = useState(
-    workoutSets.length > 0 ? workoutSets.map((_, i) => i) : [0]
+    workoutSets.length > 0 ? workoutSets.map((_, i) => i) : [0],
   );
   const [setData, setSetData] = useState(workoutSets);
 
@@ -52,8 +52,8 @@ export default function ExerciseType({ navigation, sentExerciseData }) {
   };
 
   const printList = () => {
-    console.log('Set Data:', JSON.stringify(setData, null, 2));
-    console.log('Workout Data:', JSON.stringify(sentExerciseData, null, 2));
+    console.log("Set Data:", JSON.stringify(setData, null, 2));
+    console.log("Workout Data:", JSON.stringify(sentExerciseData, null, 2));
   };
 
   const renderWorkoutEntries = () => {
@@ -70,14 +70,22 @@ export default function ExerciseType({ navigation, sentExerciseData }) {
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.headerContainer}>
-        <Text style={[GlobalStyles.textStyles, styles.textWrapper, { textAlignVertical: 'center' }]}>
+        <Text
+          style={[
+            GlobalStyles.textStyles,
+            styles.textWrapper,
+            { textAlignVertical: "center" },
+          ]}
+        >
           {workoutName}
         </Text>
       </View>
 
       <View style={styles.middleContainer}>
         <DataEntryTitles />
-        <ScrollView style={styles.scrollingwrapper}>{renderWorkoutEntries()}</ScrollView>
+        <ScrollView style={styles.scrollingwrapper}>
+          {renderWorkoutEntries()}
+        </ScrollView>
       </View>
 
       <View style={styles.buttonContainer}>
@@ -102,13 +110,13 @@ export default function ExerciseType({ navigation, sentExerciseData }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#2C2A2A',
+    backgroundColor: "#2C2A2A",
     padding: 10,
   },
   headerContainer: {
     flex: 1,
-    alignItems: 'center',
-    textAlignVertical: 'center',
+    alignItems: "center",
+    textAlignVertical: "center",
     paddingVertical: 5,
   },
   scrollingwrapper: {
@@ -122,27 +130,27 @@ const styles = StyleSheet.create({
     flex: 15, // Takes up the available space between top and bottom
     // Prevents the ScrollView from growing infinitely
     borderWidth: 1,
-    backgroundColor: '#1D1C1C',
+    backgroundColor: "#1D1C1C",
     //borderColor: '#FFF',
     borderRadius: 15,
     padding: 10,
   },
   buttonContainer: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around",
     marginVertical: 20,
   },
   button: {
-    backgroundColor: '#C800FF',
+    backgroundColor: "#C800FF",
     paddingVertical: 5,
     paddingHorizontal: 5,
     borderRadius: 5,
   },
   buttonText: {
-    color: '#FFF',
+    color: "#FFF",
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: "center",
   },
 });

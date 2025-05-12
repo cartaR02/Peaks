@@ -11,7 +11,6 @@ const globalStyles = StyleSheet.create({
   // ...
 });
 
-
 const GlobalStyles = StyleSheet.create({
   Gtext: {
     color: "#C800FF",
@@ -25,10 +24,10 @@ const GlobalStyles = StyleSheet.create({
   },
   textStyles: {
     fontSize: 19,
-    color: '#C800FF',
-    fontWeight: '600',
-    fontFamily: 'Verdana',
-    textAlign: 'center',
+    color: "#C800FF",
+    fontWeight: "600",
+    fontFamily: "Verdana",
+    textAlign: "center",
   },
 });
 
