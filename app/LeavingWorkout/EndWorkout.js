@@ -1,7 +1,7 @@
 import { View, Text, SafeAreaView, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import GlobalStyle from '../constants/globalStyles';
 import { useEffect, useState } from 'react';
-import { StoreWorkout } from '../Utility/StoreWorkout';
+import { StoreWorkout } from '../Utility/storeWorkout';
 
 export default function EndWorkout({ navigation, route }) {
     const textSize = 30;

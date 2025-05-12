@@ -19,26 +19,45 @@ export default function Search({ switchToExercise }) {
 
     try {
       const url = `https://api.api-ninjas.com/v1/exercises?name=${encodeURIComponent(name)}`;
+      console.log("API Key:", EXERCISE_API_KEY);
+      console.log("Request URL:", url);
+
+      // Make the fetch request
       const response = await fetch(url, {
         method: 'GET',
         headers: {
           'X-Api-Key': EXERCISE_API_KEY, // Use the environment variable for the API key
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
+      }).catch(error => {
+        // Handle network errors (similar to the error parameter in the callback)
+        console.error('Request failed:', error);
+        throw new Error(`Network request failed: ${error.message}`);
       });
 
-      if (!response.ok) {
-        const errorString = response.statusText || response.status;
-        console.log(errorString);
-        throw new Error(`HTTP error! Status: ${errorString}`);
+      // Get the response body as text first to log it in case of error
+      const responseBody = await response.text();
+
+      // Check for non-200 status codes (similar to the response.statusCode check in the callback)
+      if (response.status !== 200) {
+        console.error('Error:', response.status, responseBody);
+        throw new Error(`HTTP error! Status: ${response.status}, Body: ${responseBody}`);
       }
 
-      const data = await response.json();
+      // If we got here, the request was successful
+      console.log('Response body:', responseBody);
+
+      // Parse the JSON (we already have the text)
+      const data = JSON.parse(responseBody);
+
+      // Process the data
       const namesArray = data.map((exercise) => exercise.name);
-      console.log(namesArray);
+      console.log('Exercises found:', namesArray);
       setExercises(namesArray);
     } catch (err) {
       setError(err.message);
-      console.log(err);
+      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -58,8 +77,12 @@ export default function Search({ switchToExercise }) {
         />
 
         <ScrollView contentContainerStyle={styles.scrollContainer}>
-          {exercises.length > 0
-            ? exercises.map((item, index) => (
+          {loading ? (
+            <Text style={styles.message}>Loading...</Text>
+          ) : error ? (
+            <Text style={styles.errorMessage}>{error}</Text>
+          ) : exercises.length > 0 ? (
+            exercises.map((item, index) => (
               <TouchableOpacity
                 key={index}
                 style={styles.chooseWorkoutButton}
@@ -68,7 +91,9 @@ export default function Search({ switchToExercise }) {
                 <Text style={styles.buttonText}>{item}</Text>
               </TouchableOpacity>
             ))
-            : !loading && <Text style={styles.message}>No Matching Exercise Found</Text>}
+          ) : (
+            <Text style={styles.message}>No Matching Exercise Found</Text>
+          )}
         </ScrollView>
         {/* You can also have a default button selection */}
         <Text style={styles.buttonText}>Suggestions</Text>
@@ -95,6 +120,14 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontFamily: 'Verdana',
     textAlign: 'center',
+  },
+  errorMessage: {
+    fontSize: 20,
+    color: '#FF0000',
+    fontWeight: '400',
+    fontFamily: 'Verdana',
+    textAlign: 'center',
+    padding: 10,
   },
   middleContainer: {
     flex: 15, // Takes up the available space between top and bottom
@@ -131,6 +164,7 @@ const styles = StyleSheet.create({
     height: 20,
     padding: 20,
     margin: 1,
+    marginBottom: 10,
     backgroundColor: 'rgba(255, 255, 255, 0.15)',
     color: '#fff',
     textAlign: 'center',

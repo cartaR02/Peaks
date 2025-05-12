@@ -7,18 +7,18 @@ export default {
     version: "1.0.0",
     orientation: "portrait",
     icon: "./assets/images/icon.png",
-    scheme: "peaks",
+    scheme: "myapp",
     userInterfaceStyle: "automatic",
     newArchEnabled: true,
     ios: {
-      supportsTablet: true
+      supportsTablet: true,
+      bundleIdentifier: "com.anonymous.Peaks"
     },
     android: {
       adaptiveIcon: {
         foregroundImage: "./assets/images/adaptive-icon.png",
         backgroundColor: "#ffffff"
-      },
-      edgeToEdgeEnabled: true
+      }
     },
     web: {
       bundler: "metro",
