@@ -1,7 +1,7 @@
-import { Text, View, StyleSheet, TextInput, SafeAreaView } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
-import { useState, useCallback } from 'react';
-import GlobalStyles from '../constants/globalStyles';
+import { Text, View, StyleSheet, TextInput, SafeAreaView } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
+import { useState, useCallback } from "react";
+import GlobalStyles from "../constants/globalStyles";
 
 // Change the value of each flex here to make edited them easier
 const repsFlex = 2;
@@ -10,21 +10,21 @@ const setsFlex = 1;
 const typeFlex = 2;
 
 export default function WorkoutDataEntry({ index, onSetData, initialData }) {
-  console.log('Logging for WorkoutDataEntry');
-  console.log('initialData ', JSON.stringify(initialData, null, 2));
+  console.log("Logging for WorkoutDataEntry");
+  console.log("initialData ", JSON.stringify(initialData, null, 2));
   // The card that will be used to hold all of the data entry screens
   const [reps, setReps] = useState(initialData?.reps || 0); // Initialize reps with initialData or empty string
   const [weight, setWeight] = useState(initialData?.weight || 0); // Initialize weight with initialData or empty string
-  const [setType, setSetType] = useState('');
+  const [setType, setSetType] = useState("");
 
   useFocusEffect(
     useCallback(() => {
-      setReps(initialData?.reps?.toString() ?? '');
-      setWeight(initialData?.weight?.toString() ?? '');
-    }, [initialData])
+      setReps(initialData?.reps?.toString() ?? "");
+      setWeight(initialData?.weight?.toString() ?? "");
+    }, [initialData]),
   );
-  console.log('Reps:', reps);
-  console.log('Weight:', weight);
+  console.log("Reps:", reps);
+  console.log("Weight:", weight);
   // currently not used
   const handleSetTypeChange = (value) => {
     setSetType(value);
@@ -54,7 +54,7 @@ export default function WorkoutDataEntry({ index, onSetData, initialData }) {
       <View style={[styles.inputWrapper, { flex: repsFlex }]}>
         <TextInput
           style={styles.setcontainer}
-          placeholder={weight === '' ? '0' : ''}
+          placeholder={weight === "" ? "0" : ""}
           placeholderTextColor="#fff"
           value={reps}
           keyboardType="numeric"
@@ -64,9 +64,9 @@ export default function WorkoutDataEntry({ index, onSetData, initialData }) {
       <View style={[styles.inputWrapper, { flex: weightFlex }]}>
         <TextInput
           style={styles.setcontainer}
-          placeholder={weight === '' ? '0' : ''}
+          placeholder={weight === "" ? "0" : ""}
           placeholderTextColor="#fff"
-          value={weight === '' ? '' : weight}
+          value={weight === "" ? "" : weight}
           onChangeText={handleWeightChange}
           keyboardType="numeric"
         />
@@ -81,23 +81,25 @@ export function DataEntryTitles() {
       <Text style={[GlobalStyles.textStyles, { flex: setsFlex }]}>Set</Text>
       <Text style={[GlobalStyles.textStyles, { flex: typeFlex }]}>Type</Text>
       <Text style={[GlobalStyles.textStyles, { flex: repsFlex }]}>Reps</Text>
-      <Text style={[GlobalStyles.textStyles, { flex: weightFlex }]}>Weight</Text>
+      <Text style={[GlobalStyles.textStyles, { flex: weightFlex }]}>
+        Weight
+      </Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    width: '95%',
-    flexDirection: 'row', // Ensures child components are in a row
-    justifyContent: 'space-between', // Distribute space between elements
+    width: "95%",
+    flexDirection: "row", // Ensures child components are in a row
+    justifyContent: "space-between", // Distribute space between elements
     padding: 15,
     borderRadius: 15,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    alignItems: 'center',
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    alignItems: "center",
     elevation: 5,
     marginVertical: 5,
-    shadowColor: '#fff',
+    shadowColor: "#fff",
     shadowOffset: { width: 2, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 5,
@@ -109,9 +111,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 7,
     margin: 1,
-    backgroundColor: 'rgba(255, 255, 255, 0.15)',
-    color: '#fff',
-    textAlign: 'center',
+    backgroundColor: "rgba(255, 255, 255, 0.15)",
+    color: "#fff",
+    textAlign: "center",
   },
   inputWrapper: {
     flex: 1, // Ensures that the wrapper takes equal space for each item
