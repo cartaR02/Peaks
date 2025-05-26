@@ -1,16 +1,26 @@
 import {SafeAreaView, View, Image, Text, TextInput, TouchableOpacity, StyleSheet} from "react-native";
 import {useState} from "react";
+import {useAuth} from "../context/AuthContext";
+import { Redirect } from 'expo-router'
 import GlobalStyles from "../constants/globalStyles";
 
-export default function loggingIn() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const signIn = () => {
+  const {session, signin} = useAuth()
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = async () => {
+    signin({email, password})
+  }
+
+  if(session) return <Redirect href="/"/>
 
   return (
     <SafeAreaView style={[GlobalStyles.background, styles.container]}>
       <View style={styles.formContainer}>
         <Image
-          source={require("../../assets/images/OtherSplash.png")}
+          source={require("../../../assets/images/OtherSplash.png")}
           resizeMode="contain"
           style={{
             marginTop: 10,
@@ -53,7 +63,7 @@ export default function loggingIn() {
       </View>
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -104,3 +114,5 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
 });
+export default class SignIn {
+}

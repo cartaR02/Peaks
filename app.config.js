@@ -1,47 +1,39 @@
-import "dotenv/config";
+import 'dotenv/config';
 
 export default {
   expo: {
     name: "Peaks",
-    slug: "Peaks",
+    slug: "peaks",
     version: "1.0.0",
     orientation: "portrait",
-    icon: "./assets/images/icon.png",
-    scheme: "myapp",
-    userInterfaceStyle: "automatic",
-    newArchEnabled: true,
+    icon: "./assets/icon.png",
+    userInterfaceStyle: "light",
+    splash: {
+      image: "./assets/splash.png",
+      resizeMode: "contain",
+      backgroundColor: "#ffffff"
+    },
+    assetBundlePatterns: [
+      "**/*"
+    ],
     ios: {
-      supportsTablet: true,
-      bundleIdentifier: "com.anonymous.Peaks",
+      supportsTablet: true
     },
     android: {
       adaptiveIcon: {
-        foregroundImage: "./assets/images/adaptive-icon.png",
-        backgroundColor: "#ffffff",
-      },
+        foregroundImage: "./assets/adaptive-icon.png",
+        backgroundColor: "#ffffff"
+      }
     },
     web: {
-      bundler: "metro",
-      output: "static",
-      favicon: "./assets/images/favicon.png",
-    },
-    plugins: [
-      "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          image: "./assets/images/splash-icon.png",
-          imageWidth: 200,
-          resizeMode: "contain",
-          backgroundColor: "#ffffff",
-        },
-      ],
-    ],
-    experiments: {
-      typedRoutes: true,
+      favicon: "./assets/favicon.png"
     },
     extra: {
       EXERCISE_API_KEY: process.env.EXERCISE_API_KEY,
-    },
-  },
+      appwriteEndpoint: process.env.APPWRITE_ENDPOINT,
+      appwriteProject: process.env.APPWRITE_PROJECT_ID || "your_project_id",
+      appwriteBundleId: process.env.APPWRITE_BUNDLE_ID || "com.yourcompany.peaks",
+      appwritePackageName: process.env.APPWRITE_PACKAGE_NAME || "com.yourcompany.peaks"
+    }
+  }
 };

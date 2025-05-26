@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import GlobalStyle from "./constants/globalStyles";
+import GlobalStyle from "./src/constants/globalStyles";
 
 export default function HomeScreen({ navigation }) {
   return (

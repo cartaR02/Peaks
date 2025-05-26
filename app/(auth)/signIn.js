@@ -1,36 +1,33 @@
-import React, { useState } from 'react';
-import {
-    Text,
-    TextInput,
-    TouchableOpacity,
-    StyleSheet,
-    SafeAreaView,
-    KeyboardAvoidingView, Alert,
-    View,
-    Image,
-} from 'react-native';
-import GlobalStyles from '../constants/globalStyles';
+import {SafeAreaView, View, Image, Text, TextInput, TouchableOpacity, StyleSheet} from "react-native";
+import {useState} from "react";
+import {useAuth} from "../src/context/AuthContext";
+import { Redirect } from 'expo-router';
+import GlobalStyles from "../src/constants/globalStyles";
 
-export default function Login() {
+export default function SignIn() {
+    const {session, signin} = useAuth();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const [Loading, setLoading] = useState(false);
 
+    const handleSubmit = async () => {
+        signin({email, password});
+    }
 
+    if(session) return <Redirect href="/(app)" />;
 
     return (
-        <SafeAreaView style={[GlobalStyles.background,  styles.container ]}>
+        <SafeAreaView style={[GlobalStyles.background, styles.container]}>
             <View style={styles.formContainer}>
                 <Image
-                    source={require('../../assets/images/MainSplash.png')}
+                    source={require("../../assets/images/OtherSplash.png")}
                     resizeMode="contain"
                     style={{
                         marginTop: 10,
-                        width: '80%',
-                        height: '40%',
+                        width: "80%",
+                        height: "40%",
                         aspectRatio: 1,
-                        alignSelf: 'center',
+                        alignSelf: "center",
                     }}
                 />
                 <Text style={styles.title}>Peaks</Text>
@@ -56,7 +53,7 @@ export default function Login() {
                     />
                 </View>
                 <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.button}>
+                    <TouchableOpacity style={styles.button} onPress={handleSubmit}>
                         <Text style={styles.buttonText}>Log In</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button}>
@@ -71,23 +68,23 @@ export default function Login() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: "center",
+        alignItems: "center",
     },
     formContainer: {
-        width: '80%',
+        width: "80%",
     },
     title: {
         fontSize: 32,
-        textAlign: 'center',
+        textAlign: "center",
         marginBottom: 25,
         marginTop: 25,
-        fontWeight: 'bold',
-        color: '#C800FF',
+        fontWeight: "bold",
+        color: "#C800FF",
     },
     input: {
         borderWidth: 1,
-        borderColor: '#ccc',
+        borderColor: "#ccc",
         borderRadius: 5,
         padding: 10,
         marginBottom: 15,
@@ -97,23 +94,23 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     buttonContainer: {
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        width: "100%",
+        flexDirection: "row",
+        justifyContent: "space-between",
         paddingHorizontal: 20,
     },
     button: {
-        backgroundColor: '#C800FF',
+        backgroundColor: "#C800FF",
         padding: 15,
         borderRadius: 5,
         marginVertical: 10,
-        width: '48%',
-        alignItems: 'center',
+        width: "48%",
+        alignItems: "center",
     },
     buttonText: {
-        color: '#fff',
-        textAlign: 'center',
+        color: "#fff",
+        textAlign: "center",
         fontSize: 18,
-        fontWeight: '600',
-    }
+        fontWeight: "600",
+    },
 });
