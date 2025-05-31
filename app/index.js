@@ -18,7 +18,7 @@ export default function Index() {
 
   // TODO soon to be AuthenticatedStack
   return (
-    <Stack.Navigator initialRouteName="Login">
+    <Stack.Navigator initialRouteName="Home">
       <Stack.Screen
         name="Home"
         component={HomeScreen}

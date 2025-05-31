@@ -32,6 +32,7 @@ export default function EndWorkout({ navigation, route }) {
     }
   }, [completeWorkout]); // Run once when the component mounts
 
+
   // Calls both storeworkout and navigate instead of button somehow doing both
   function StoreWorkoutWrapper() {
     StoreWorkout(compiledWorkouts);
