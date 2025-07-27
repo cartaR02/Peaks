@@ -6,10 +6,20 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import { doc, setDoc} from "firebase/firestore";
+import { db } from "../firebaseConfig";
 
 import GlobalStyle from "./constants/globalStyles";
 
 export default function HomeScreen({ navigation }) {
+
+  const addTestData = async () => {
+    await setDoc(doc(db, "cities", "LA"), {
+      name: "Los Angeles",
+      state: "CA",
+      country: "USA"
+    });
+  }
   return (
     <SafeAreaView style={[styles.container, GlobalStyle.background]}>
       <View style={styles.settingsBar}>
@@ -29,6 +39,12 @@ export default function HomeScreen({ navigation }) {
           onPress={() => navigation.navigate("StartWorkout")}
         >
           <Text style={styles.buttonText}>Start Workout</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+        style={styles.startbutton}
+        onPress={addTestData}>
+          <Text style={styles.buttonText}>Add Test Data</Text>
+
         </TouchableOpacity>
         <View style={styles.musclesworked}>
           <Text style={[GlobalStyle.Gtext, { fontSize: 24 }]}>Recent PR:</Text>
