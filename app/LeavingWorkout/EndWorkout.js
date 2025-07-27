@@ -13,7 +13,6 @@ import { StoreWorkout } from "../Utility/storeWorkout";
 export default function EndWorkout({ navigation, route }) {
   const textSize = 30;
   const { completeWorkout } = route.params;
-  console.log(route.params); // Default to an empty function if not passed
   const [compiledWorkouts, setCompiledWorkouts] = useState([]); // State to hold compiled workouts
 
   // Log the complete workout data
